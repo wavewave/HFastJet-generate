@@ -44,7 +44,7 @@ startGenerateJob conf = do
    
   putStrLn "header file generation"
   writeTypeDeclHeaders templates cglobal workingDir "HFastJet" fastjet_all_classes_imports
-  mapM_ (writeDeclHeaders templates cglobal workingDir) fastjet_all_classes_imports
+  mapM_ (writeDeclHeaders templates cglobal workingDir "HFastJet") fastjet_all_classes_imports
 
   putStrLn "cpp file generation" 
   mapM_ (writeCppDef templates workingDir) fastjet_all_classes_imports

@@ -27,15 +27,27 @@ deletableH = ClassImportHeader deletable "HFastJetDeletable.h" "HFastJetDeletabl
         
 deletableM = ClassModule "Deletable" [deletable] [deletableH] [] [] []
 
+pseudoJet :: Class 
+pseudoJet = Class "PseudoJet" []
+            [ Constructor [ double "px", double "py", double "pz", double "E" ]
+
+            ] 
+
+pseudoJetH = ClassImportHeader pseudoJet "HFastJetPseudoJet.h" "HFastJetPseudoJet.cpp"
+                               [ "HFastJetDeletable.h" ] 
+                               [ "fastjet/PseudoJet.hh" ] 
+
+pseudoJetM = ClassModule "PseudoJet" [pseudoJet] [pseudoJetH] [] [ "Deletable" ] [] 
+
 
 fastjet_all_classes :: [Class]
 fastjet_all_classes = 
-  [ deletable ]
+  [ deletable, pseudoJet ]
 
 fastjet_all_classes_imports :: [ClassImportHeader]
 fastjet_all_classes_imports = 
-  [ deletableH ] 
+  [ deletableH, pseudoJetH ] 
 
 
 fastjet_all_modules :: [ClassModule] 
-fastjet_all_modules = [deletableM ] 
+fastjet_all_modules = [deletableM, pseudoJetM ] 

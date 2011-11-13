@@ -22,7 +22,7 @@ deletable :: Class
 deletable = AbstractClass "Deletable" [] 
           [ Destructor ]
 
-deletableH = ClassImportHeader deletable "FastJetDeletable.h" "FastJetDeletable.cpp"
+deletableH = ClassImportHeader deletable "HFastJetDeletable.h" "HFastJetDeletable.cpp"
                                [] [] 
         
 deletableM = ClassModule "Deletable" [deletable] [deletableH] [] [] []

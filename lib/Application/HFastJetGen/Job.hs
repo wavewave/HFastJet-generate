@@ -17,6 +17,8 @@ import Bindings.Cxx.Generate.Generator.ContentMaker
 import Application.HFastJetGen.Data.FastJet
 import Application.HFastJetGen.Data.FastJetAnnotate
 
+import System.Directory
+
 import Paths_fficxx
 
 startGenerateJob :: FilePath -> IO () 
@@ -31,7 +33,7 @@ startGenerateJob conf = do
 
   let workingDir = fficxxconfig_workingDir config 
       ibase = fficxxconfig_installBaseDir config
-      cabalFileName = "HROOT.cabal"
+
 
   templateDir <- getDataDir >>= return . (</> "template")
   (templates :: STGroup String) <- directoryGroup templateDir 
@@ -41,7 +43,7 @@ startGenerateJob conf = do
   let cglobal = mkGlobal fastjet_all_classes
    
   putStrLn "header file generation"
-  writeTypeDeclHeaders templates cglobal workingDir fastjet_all_classes_imports
+  writeTypeDeclHeaders templates cglobal workingDir "HFastJet" fastjet_all_classes_imports
   mapM_ (writeDeclHeaders templates cglobal workingDir) fastjet_all_classes_imports
 
   putStrLn "cpp file generation" 
@@ -62,3 +64,10 @@ startGenerateJob conf = do
   putStrLn "Implementation.hs file generation"
   mapM_ (writeImplementationHs annotateMap templates workingDir prefix) fastjet_all_modules
 
+  putStrLn "module file generation" 
+  mapM_ (writeModuleHs templates workingDir prefix) fastjet_all_modules
+
+  -- copyFile (workingDir </> cabalFileName)  ( ibase </> cabalFileName ) 
+  -- copyPredefined templateDir (srcDir ibase)
+  mapM_ (copyCppFiles workingDir (csrcDir ibase) "HFastJet") fastjet_all_classes_imports
+  mapM_ (copyModule workingDir (srcDir ibase) prefix "HFastJet") fastjet_all_modules 

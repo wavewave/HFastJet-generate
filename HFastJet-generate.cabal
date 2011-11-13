@@ -18,7 +18,9 @@ Executable hfastjet-generate
   ghc-prof-options: -caf-all -auto-all
   Build-Depends: 
                    base>4, mtl>2, directory, filepath,
-                   cmdargs, HFastJet-generate
+                   cmdargs, HFastJet-generate, 
+                   HStringTemplate
+--                   HStringTemplateHelpersIW
 
 Library
   hs-source-dirs: lib
@@ -26,11 +28,16 @@ Library
   ghc-prof-options: -caf-all -auto-all
   Build-Depends: 
                    base>4, mtl>2, directory, filepath,
-                   cmdargs
+                   cmdargs, fficxx, parsec>3,
+                   HStringTemplate, containers
+--                   HStringTemplateHelpersIW
+
   Exposed-Modules: 
                    Application.HFastJetGen.Type
                    Application.HFastJetGen.Job
                    Application.HFastJetGen.Command
+                   Application.HFastJetGen.Data.FastJet
+                   Application.HFastJetGen.Data.FastJetAnnotate
   Other-Modules: 
 
  
